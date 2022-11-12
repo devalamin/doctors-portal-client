@@ -1,15 +1,14 @@
-import logo from './logo.svg';
+import { RouterProvider } from 'react-router-dom';
 import './App.css';
+import { router } from './Routes/Routes/Routes';
 
 function App() {
   return (
-    <div className="App">
-      <button className="btn btn-active">Button</button>
-      <button className="btn btn-active btn-primary">Button</button>
-      <button className="btn btn-active btn-secondary">Button</button>
-      <button className="btn btn-active btn-accent">Button</button>
-      <button className="btn btn-active btn-ghost">Button</button>
-      <button className="btn btn-active btn-link">Button</button>
+    <div className='max-w-[1440px] mx-auto'>
+      <RouterProvider router={router}>
+
+      </RouterProvider>
+
     </div>
   );
 }
