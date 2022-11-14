@@ -1,9 +1,59 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
+    const { register, formState: { errors }, handleSubmit } = useForm();
+
+    const { userLogin } = useContext(AuthContext);
+
+
+    const handleLogin = data => {
+        console.log(data);
+        userLogin(data.email, data.password)
+            .then(result => {
+                console.log(result.user);
+            })
+            .catch(err => console.error(err))
+    }
+
+
     return (
         <div>
-            this is logingrehgerh
+            <div className='flex items-center justify-center h-[700px]'>
+                <div className='w-96 border-1 shadow-xl rounded-md border-primary p-10'>
+                    <h3 className='text-4xl font-bold'>Login</h3>
+
+                    <form onSubmit={handleSubmit(handleLogin)}>
+
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input type='email' {...register("email", { required: "Email is required" })} className="input input-bordered w-full max-w-xs" />
+                        </div>
+                        {errors.email && <p className='text-red-700' role="alert">{errors.email?.message}</p>}
+
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input type='password' {...register("password", { required: "Password field can't be empty" })} className="input input-bordered w-full max-w-xs" />
+                            <label className="label">
+                                <span className="label-text">Forget Password?</span>
+                            </label>
+                        </div>
+                        {errors.password && <p className='text-red-700' role="alert">{errors.password?.message}</p>}
+                        <input className='btn btn-accent w-full my-6' value='Login' type="submit" />
+                    </form>
+                    <p>New to doctors portal? <Link className='text-secondary' to='/register'>Create new account</Link></p>
+                    <div className="divider">OR</div>
+                    <button className='btn btn-outline w-full'>Continue With Google</button>
+
+                </div>
+
+            </div>
         </div>
     );
 };
