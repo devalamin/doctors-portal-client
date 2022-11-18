@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
 
     const updateUserProfile = (userInfo) => {
         setLoading(true)
-        return updateProfile(user, userInfo)
+        return updateProfile(auth.currentUser, userInfo)
     }
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
