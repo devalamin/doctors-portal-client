@@ -7,14 +7,21 @@ const MyAppointment = () => {
 
     const url = `http://localhost:5000/bookings?email=${user?.email}`
 
-    const { data: bookings = [] } = useQuery({
+    const { data: bookings = [], isLoading } = useQuery({
+
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(url)
+            const res = await fetch(url, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('userToken')}`
+                }
+            })
             const data = await res.json()
             return data;
         }
+
     })
+    console.log(bookings)
 
     return (
         <div>
@@ -32,9 +39,8 @@ const MyAppointment = () => {
                         </tr>
                     </thead>
                     <tbody>
-
                         {
-                            bookings.map((booking, i) => <tr>
+                            bookings?.map((booking, i) => <tr key={booking._id}>
                                 <th>{i + 1}</th>
                                 <td>{booking.patientName}</td>
                                 <td>{booking.treatmentName}</td>
